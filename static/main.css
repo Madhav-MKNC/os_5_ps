@@ -1,0 +1,8 @@
+body{font-family:Inter,Arial,sans-serif;background:#f6f7fb;color:#111;padding:24px}
+.container{max-width:980px;margin:0 auto}
+.card{background:#fff;border-radius:8px;padding:16px;margin-bottom:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06)}
+.row{display:flex;gap:12px;align-items:center;margin-top:8px}
+input[type="text"],input[type="number"],textarea,select{padding:8px;border:1px solid #ddd;border-radius:6px}
+button{padding:8px 12px;border-radius:6px;border:0;background:#2b6cb0;color:#fff;cursor:pointer}
+button[disabled]{opacity:0.6;cursor:not-allowed}
+img{max-width:100%;display:block}

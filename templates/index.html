@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PSD Editor - Full</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+<body>
+<div class="container">
+  <h2>PSD Editor</h2>
+
+  <section class="card">
+    <h3>1. Upload PSD</h3>
+    <input type="file" id="psdfile" accept=".psd,.psb">
+    <button id="uploadPsdBtn">Upload</button>
+    <div id="psdStatus"></div>
+  </section>
+
+  <section class="card" id="previewCard" style="display:none;">
+    <h3>Preview</h3>
+    <img id="previewImg" src="" style="max-width:100%;">
+  </section>
+
+  <section class="card" id="layersCard" style="display:none;">
+    <h3>2. Pick Text Layer</h3>
+    <select id="layerSelect"></select>
+    <button id="refreshFontsBtn">List Fonts</button>
+    <select id="fontsSelect"></select>
+  </section>
+
+  <section class="card" id="editorCard" style="display:none;">
+    <h3>3. Edit Text & Styles</h3>
+    <textarea id="textInput" rows="2"></textarea>
+    <div class="row">
+      <label>Size <input id="sizeInput" type="number" value=72></label>
+      <label>Color <input id="colorInput" type="color" value="#000000"></label>
+      <label>Font file <input id="fontFileInput" placeholder="leave blank to use preset font"></label>
+    </div>
+    <div class="row">
+      <label><input id="shadowChk" type="checkbox"> Shadow</label>
+      <label>Shadow blur <input id="shadowBlur" type="number" value=6></label>
+      <label><input id="depthChk" type="checkbox"> 3D</label>
+      <label>Outline <input id="outlineInput" type="number" value=0></label>
+    </div>
+    <div class="row">
+      <label>Gradient from <input id="g1" type="color" value="#ffffff"> to <input id="g2" type="color" value="#ff0000"></label>
+    </div>
+    <button id="renderBtn">Render & Preview</button>
+    <a id="downloadLink" href="#" download style="display:none">Download</a>
+  </section>
+
+  <section class="card" id="outputCard" style="display:none;">
+    <h3>Output</h3>
+    <img id="outputImg" src="" style="max-width:100%;">
+  </section>
+
+  <section class="card">
+    <h3>Upload Font (.ttf/.otf)</h3>
+    <input type="file" id="fontUpload" accept=".ttf,.otf">
+    <button id="uploadFontBtn">Upload Font</button>
+    <div id="fontMsg"></div>
+  </section>
+</div>
+<script src="/static/main.js"></script>
+</body>
+</html>
