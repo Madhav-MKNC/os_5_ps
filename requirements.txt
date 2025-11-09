@@ -1,0 +1,9 @@
+Flask>=2.0
+psd-tools>=1.9
+Pillow>=9.0
+python-magic>=0.4.27
+Werkzeug>=2.0
+python-magic-bin
+
+opencv-python
+
