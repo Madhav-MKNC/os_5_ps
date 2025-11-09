@@ -23,31 +23,38 @@ def parse_psd_text_layers(psd_path):
         try:
             if not layer.visible:
                 continue
-            is_text = getattr(layer, "kind", None) == "type" or getattr(layer, "has_text", False)
-            if not is_text: continue
-            engine = layer.engine_dict or {}
-            text = engine.get("Editor", {}).get("Text", "") or layer.name or ""
-            sruns = engine.get("StyleRun", {}).get("RunArray", [])
-            ssdata = {}
-            if sruns:
-                ssdata = sruns[0].get("StyleSheet", {}).get("StyleSheetData", {})
-            font_post = ssdata.get("Font", "")
-            font_size = int(ssdata.get("FontSize") or ssdata.get("FontSize", 24))
-            color_vals = ssdata.get("FillColor", {}).get("Values") or ssdata.get("FillColor", {}).get("Values", None)
-            color = _normalize_color(color_vals)
-            left = getattr(layer, "left", 0)
-            top = getattr(layer, "top", 0)
-            width = getattr(layer, "width", 0)
-            height = getattr(layer, "height", 0)
-            result.append({
-                "id": uuid.uuid4().hex,
-                "name": layer.name or "text",
-                "text": text,
-                "font_postscript": font_post,
-                "size": font_size,
-                "color": color,
-                "position": [left, top, width, height]
-            })
+            kind = getattr(layer, "kind", None)
+            if kind == "type" or getattr(layer, "has_text", False):
+                engine = layer.engine_dict or {}
+                text = engine.get("Editor", {}).get("Text", "") or layer.name or ""
+                sruns = engine.get("StyleRun", {}).get("RunArray", [])
+                ssdata = {}
+                if sruns:
+                    ssdata = sruns[0].get("StyleSheet", {}).get("StyleSheetData", {})
+                font_post = ssdata.get("Font", "")
+                font_size = int(ssdata.get("FontSize", 24))
+                color_vals = ssdata.get("FillColor", {}).get("Values")
+                color = [int(v*255) if 0<=v<=1 else int(v) for v in (color_vals or [0,0,0])][:3]
+                left, top, width, height = layer.left, layer.top, layer.width, layer.height
+                result.append({
+                    "id": uuid.uuid4().hex,
+                    "name": layer.name or "text",
+                    "text": text,
+                    "font_postscript": font_post,
+                    "size": font_size,
+                    "color": color,
+                    "position": [left, top, width, height],
+                    "type": "text"
+                })
+            elif kind == "smartobject":
+                result.append({
+                    "id": uuid.uuid4().hex,
+                    "name": layer.name or "smartobject",
+                    "type": "smartobject",
+                    "linked": getattr(layer, "linked", False),
+                    "size": [layer.width, layer.height],
+                    "position": [layer.left, layer.top]
+                })
         except Exception:
             continue
     return result
